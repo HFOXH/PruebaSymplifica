@@ -9,25 +9,34 @@
                 <p class="card-text" style="text-align: center">
                     Puedes registrarte llenando la siguiente información
                 </p>
-                <form>
+                <form [formGroup]="registroUser">
                     <div class="form-group inputs">
                         <label for="exampleFormControlInput1">Nombre</label>
-                        <input type="text" class="form-control" id="inputName" placeholder="SC" />
+                        <input type="text" class="form-control" id="inputName" formControlName="inpNombre"/>
+                        <div *ngIf="registroUser.get('inpNombre').errors && registroUser.get('inpNombre').dirty">
+                            <p class="text-danger" *ngIf="registroUser.get('inpNombre').hasError('required')">Este campo es requerido</p>
+                            <p class="text-danger" *ngIf="registroUser.get('inpNombre').hasError('maxlength')">Este campo no puede tener mas de 40 caracteres</p>
+                        </div>
                     </div>
                     <div class="form-group inputs">
                         <label for="exampleFormControlSelect1">Ciudad</label>
-                        <select class="form-control" id="inputCity">
-                            <option>Bogotá</option>
-                            <option>Medellín</option>
-                            <option>Cartagena</option>
+                        <select class="form-control" id="inputCity" formControlName="selCiudad">
+                            <option value="Bogotá">Bogotá</option>
+                            <option value="Medellín">Medellín</option>
+                            <option value="Cartagena">Cartagena</option>
                         </select>
                     </div>
                     <div class="form-group inputs">
-                        <label for="exampleFormControlTextarea1">Número</label>
-                        <input type="number" class="form-control" id="inputNumber" placeholder="3216549898" />
-                    </div>
+                        <label for="exampleFormControlInput1">Número</label>
+                        <input type="number" class="form-control" id="inputNumero" formControlName="inpNumero"/>
+                        <div *ngIf="registroUser.get('inpNumero').errors && registroUser.get('inpNumero').dirty">
+                            <p class="text-danger" *ngIf="registroUser.get('inpNumero').hasError('maxDigitsExceeded')">El número no puede tener más de 10 dígitos</p>
+                            <p class="text-danger" *ngIf="registroUser.get('inpNumero').hasError('required')">Este campo es requerido</p>
+                        </div>
+                      </div>
+                    <br>
                     <div class="d-grid gap-2">
-                        <button type="submit" class="btn btn-primary inputs">
+                        <button type="submit" class="btn btn-primary inputs" (click)="addUser()" [disabled]="registroUser.invalid">
                             <b>Enviar</b>
                         </button>
                     </div>
